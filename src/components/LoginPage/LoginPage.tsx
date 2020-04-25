@@ -17,7 +17,6 @@ interface FormValues {
 }
 
 const LoginPage: React.FC<{}> = () => {
-// const LoginPage = () => {
   const classes = useStyles();
 
   const initialValues: FormValues = {
@@ -53,7 +52,6 @@ const LoginPage: React.FC<{}> = () => {
               {touched.email && errors.email && <div>{errors.email}</div>}
             </div>
 
-
             <div>
               <label>{PASSWORD_TEXT}</label>
               <Field
@@ -63,7 +61,6 @@ const LoginPage: React.FC<{}> = () => {
               />
               {touched.password && errors.password && <div>{errors.password}</div>}
             </div>
-
 
             <button
               type={"submit"}
