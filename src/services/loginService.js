@@ -9,7 +9,6 @@ export const loginUser = async () => {
   try {
     const result = await axios.get(`${API_URL}/?inc=${include}`)
       .then(respond => {
-        // console.log('respond',respond)
         return respond.data.results
       })
     return result

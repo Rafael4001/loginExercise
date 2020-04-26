@@ -1,7 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles({
-  error: {
-    backgroundColor: "rgba(222,189,189,0.82)",
+  mainContainer: {
+    background: "rgba(255,255,255,0.8)",
+    width: '20rem',
+    padding: '1rem',
+    height: '25rem',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  }
 });

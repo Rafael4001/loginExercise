@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
-import { validationSchemaYup } from './LoginPageValidation'
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Button from '@material-ui/core/Button';
 
+import { validationSchemaYup } from './LoginPageValidation'
+
+
 import { loginUser } from "../../services/loginService";
+import FormikTextField from './../FormikComponents/FormikTextField'
 
 import { useStyles } from './LoginPage.style'
 
 import { isEmpty } from '../../utilities'
 
+
+
 const PASSWORD_TEXT = "Hasło";
 const EMAIL_TEXT = "Email";
 const LOGIN_TEXT = "Zaloguj";
+
 
 interface FormValues {
   email: string;
@@ -40,16 +46,14 @@ const LoginPage: React.FC<{}> = () => {
       setUser(results[0]?.email)
 
       if (results[0]?.registered?.age > 10) {
-        console.log(`wiek ${results[0].registered?.age} jest wystarczajacy`, )
+        console.log(`wiek ${results[0].registered?.age} jest wystarczajacy`,)
         setIsLoggedIn(true)
       } else if (results[0]?.registered?.age) {
-        console.log(`wiek ${results[0].registered?.age} to za mało !`, )
+        console.log(`wiek ${results[0].registered?.age} to za mało !`,)
         setIsLoggedIn(false)
       }
 
     }
-
-
   };
 
 
@@ -61,12 +65,14 @@ const LoginPage: React.FC<{}> = () => {
   const getActualPage = () => (
     <div>
       Witaj <strong>{user}</strong>
-      <button onClick={logOut}>Wyloguj</button>
+      <button onClick={logOut}>
+        <ExitToAppIcon/>
+      </button>
     </div>
   )
 
   const getLoginPage = () => (
-    <div>
+    <div className={classes.mainContainer}>
       <span>Panel Logowania</span>
 
       <Formik
@@ -86,23 +92,26 @@ const LoginPage: React.FC<{}> = () => {
           const isError = !isEmpty(errors);
 
           return (
-            <Form onSubmit={handleSubmit}>
+            <Form
+              onSubmit={handleSubmit}
+              className={classes.formContainer}
+            >
               <div>
-                <label>{EMAIL_TEXT}</label>
                 <Field
                   type="email"
                   name="email"
-                  className={errors.email && touched.email && classes.error}
+                  component={FormikTextField}
+                  label={EMAIL_TEXT}
                 />
                 {touched.email && errors.email && <div>{errors.email}</div>}
               </div>
 
               <div>
-                <label>{PASSWORD_TEXT}</label>
                 <Field
                   type="password"
                   name="password"
-                  className={errors.password && touched.password && classes.error}
+                  component={FormikTextField}
+                  label={PASSWORD_TEXT}
                 />
                 {touched.password && errors.password && <div>{errors.password}</div>}
               </div>
