@@ -36,6 +36,6 @@ export const useStyles = makeStyles({
     paddingTop: '2rem',
   },
   iconAccountAvatar: {
-    marginRight: '0.8125rem',
+    marginRight: '0.5rem',
   }
 });
