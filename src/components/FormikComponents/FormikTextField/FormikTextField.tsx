@@ -1,11 +1,8 @@
 import React from 'react';
 
 import TextField from '@material-ui/core/TextField';
+
 import { useStyles } from "./FormikTextField.style";
-
-// import FormikErrorText from '../FormikErrorText';
-
-// import { getFormikError } from '../../utilities/formikHelpers';
 
 //TODO tutaj doprecyzowac object props
 const FormikTextField = (props: any) => {
@@ -27,10 +24,6 @@ const FormikTextField = (props: any) => {
   const {classes: classesInput, ...otherInputProps} = InputProps;
   const {classes: classesInputLabel, ...otherInputLabelProps} = InputLabelProps;
   const {classes: classesError, ...otherErrorProps} = errorProps;
-
-  // const { hasError } = getFormikError({ name: field.name, errors, touched });
-
-  console.log('kkkkkk', errors)
 
   return (
     <div className={classes.wrapper}>
@@ -62,10 +55,11 @@ const FormikTextField = (props: any) => {
       />
 
       <div className={classes.errorText}>{(errors[field.name] && touched[field.name]) ? errors[field.name] : ""}</div>
-      {/*{!disableErrorText && <FormikErrorText name={field.name} {...otherErrorProps} />}*/}
     </div>
   );
 };
+
+//TODO tym się zająć i stworzyc odpowiedni interface
 
 // FormikTextField.propTypes = {
 //   classes: PropTypes.object.isRequired,

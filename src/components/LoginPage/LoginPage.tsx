@@ -130,7 +130,6 @@ const LoginPage: React.FC<{}> = () => {
                 </Button>
               </div>
             </Form>
-
           )
         }}
       </Formik>

@@ -33,7 +33,7 @@ export const useStyles = makeStyles({
     alignItems: 'center',
   },
   loginButtonContainer: {
-    paddingTop: '2rem',
+    padding: '1.5rem 0',
   },
   iconAccountAvatar: {
     marginRight: '0.5rem',
