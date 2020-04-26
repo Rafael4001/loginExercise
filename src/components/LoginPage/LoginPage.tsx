@@ -1,15 +1,17 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 
 import { validationSchemaYup } from './LoginPageValidation'
 
+import { loginUser } from "../../services/loginService";
+
 import { useStyles } from './LoginPage.style'
+import { boolean } from "yup";
 
 
 const PASSWORD_TEXT = "Hasło";
 const EMAIL_TEXT = "Email";
 const LOGIN_TEXT = "Zaloguj";
-
 
 interface FormValues {
   email: string;
@@ -19,19 +21,50 @@ interface FormValues {
 const LoginPage: React.FC<{}> = () => {
   const classes = useStyles();
 
+  //  to wyniesc do Redux
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [user, setUser] = useState(null)
+
   const initialValues: FormValues = {
     password: '',
     email: '',
   }
 
-  return (
+  const handleSubmit = async (values: FormValues) => {
+    const results = await loginUser();
+    console.log('result tutaj', results)
+
+
+    //this is made for the task
+    if (results && results[0]?.registered?.age > 10) {
+      await console.log(results[0]?.registered)
+      setIsLoggedIn(true)
+      console.log('results[0]?.email', results[0]?.email)
+      setUser(results[0]?.email)
+
+    } else if (results && results[0]?.registered?.age) {
+      setIsLoggedIn(false)
+      setUser(results[0]?.email)
+    }
+  };
+
+
+  const getActualPage = () => (
+    <div>
+      Witaj <strong>{user}</strong>
+      <button onClick={() => setIsLoggedIn(false)}>Wyloguj</button>
+    </div>
+  )
+
+  const getLoginPage = () => (
     <div>
       Zaloguj się
 
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => {
-          console.log('wysylam', values)
+        onSubmit={(values, {resetForm}) => {
+          handleSubmit(values)
+          resetForm()
         }}
         validationSchema={validationSchemaYup}
       >
@@ -57,7 +90,7 @@ const LoginPage: React.FC<{}> = () => {
               <Field
                 type="password"
                 name="password"
-                className={errors.password && touched.password &&  classes.error}
+                className={errors.password && touched.password && classes.error}
               />
               {touched.password && errors.password && <div>{errors.password}</div>}
             </div>
@@ -71,8 +104,16 @@ const LoginPage: React.FC<{}> = () => {
           </Form>
         )}
       </Formik>
+
+      {user && <div>Uzytkownik <strong>{user}</strong> nie istnieje</div>}
     </div>
   )
+
+  if (isLoggedIn) {
+    return getActualPage()
+  }
+
+  return getLoginPage()
 }
 
 export default LoginPage
