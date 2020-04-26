@@ -15,7 +15,7 @@ const FormikTextField = (props: any) => {
     disableErrorText,
     label,
     field,
-    form: { touched, errors },
+    form: {touched, errors},
     InputProps,
     disabled,
     InputLabelProps,
@@ -24,18 +24,20 @@ const FormikTextField = (props: any) => {
     ...other
   } = props;
 
-  const { classes: classesInput, ...otherInputProps } = InputProps;
-  const { classes: classesInputLabel, ...otherInputLabelProps } = InputLabelProps;
-  const { classes: classesError, ...otherErrorProps } = errorProps;
+  const {classes: classesInput, ...otherInputProps} = InputProps;
+  const {classes: classesInputLabel, ...otherInputLabelProps} = InputLabelProps;
+  const {classes: classesError, ...otherErrorProps} = errorProps;
 
   // const { hasError } = getFormikError({ name: field.name, errors, touched });
 
+  console.log('kkkkkk', errors)
+
   return (
-    <div>
+    <div className={classes.wrapper}>
       <TextField
         label={label}
         disabled={disabled}
-        error={errors[field.name]}
+        error={errors[field.name] && touched[field.name]}
         variant={variant}
         InputProps={{
           notched: variant === 'outlined' ? false : undefined, // disable notched for non-outlined variants
@@ -58,6 +60,8 @@ const FormikTextField = (props: any) => {
         {...field}
         {...other}
       />
+
+      <div className={classes.errorText}>{(errors[field.name] && touched[field.name]) ? errors[field.name] : ""}</div>
       {/*{!disableErrorText && <FormikErrorText name={field.name} {...otherErrorProps} />}*/}
     </div>
   );

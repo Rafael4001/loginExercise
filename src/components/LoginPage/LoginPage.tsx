@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 
 import { validationSchemaYup } from './LoginPageValidation'
@@ -12,7 +13,6 @@ import FormikTextField from './../FormikComponents/FormikTextField'
 import { useStyles } from './LoginPage.style'
 
 import { isEmpty } from '../../utilities'
-
 
 
 const PASSWORD_TEXT = "Hasło";
@@ -62,18 +62,27 @@ const LoginPage: React.FC<{}> = () => {
     setUser(null);
 
   }
-  const getActualPage = () => (
-    <div>
-      Witaj <strong>{user}</strong>
-      <button onClick={logOut}>
-        <ExitToAppIcon/>
-      </button>
+  const getPageAfterLogin = () => (
+    <div className={classes.pageAfterLoginContainer}>
+      <div className={classes.logoutButtonContainer}>
+        {/*TODO tutaj zrobic dialog*/}
+        <AccountCircle className={classes.iconAccountAvatar}/>
+        <h3>Panel Użytkownika</h3>
+        <Button onClick={logOut}>
+          <ExitToAppIcon/>
+        </Button>
+      </div>
+
+      <div>
+        <span>Witaj <strong>{user}</strong></span>
+        <p>Miło mi Cię widzieć.</p>
+      </div>
     </div>
   )
 
   const getLoginPage = () => (
     <div className={classes.mainContainer}>
-      <span>Panel Logowania</span>
+      <h3>Panel Logowania</h3>
 
       <Formik
         initialValues={initialValues}
@@ -96,34 +105,30 @@ const LoginPage: React.FC<{}> = () => {
               onSubmit={handleSubmit}
               className={classes.formContainer}
             >
-              <div>
-                <Field
-                  type="email"
-                  name="email"
-                  component={FormikTextField}
-                  label={EMAIL_TEXT}
-                />
-                {touched.email && errors.email && <div>{errors.email}</div>}
-              </div>
+              <Field
+                type="email"
+                name="email"
+                component={FormikTextField}
+                label={EMAIL_TEXT}
+              />
 
-              <div>
-                <Field
-                  type="password"
-                  name="password"
-                  component={FormikTextField}
-                  label={PASSWORD_TEXT}
-                />
-                {touched.password && errors.password && <div>{errors.password}</div>}
-              </div>
+              <Field
+                type="password"
+                name="password"
+                component={FormikTextField}
+                label={PASSWORD_TEXT}
+              />
 
-              <Button
-                variant="outlined"
-                color="primary"
-                type={"submit"}
-                disabled={isError || isSubmitting}
-              >
-                {LOGIN_TEXT}
-              </Button>
+              <div className={classes.loginButtonContainer}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  type={"submit"}
+                  disabled={isError || isSubmitting}
+                >
+                  {LOGIN_TEXT}
+                </Button>
+              </div>
             </Form>
 
           )
@@ -135,7 +140,7 @@ const LoginPage: React.FC<{}> = () => {
   )
 
   if (isLoggedIn) {
-    return getActualPage()
+    return getPageAfterLogin()
   }
 
   return getLoginPage()

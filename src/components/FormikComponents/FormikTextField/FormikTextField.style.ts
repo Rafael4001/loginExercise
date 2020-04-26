@@ -4,6 +4,7 @@ export const useStyles = makeStyles({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
   },
   inputLabelFormControl: {
     position: 'static',
@@ -18,5 +19,10 @@ export const useStyles = makeStyles({
   input: {
     padding: '0.7rem',
   },
+  errorText: {
+    color: '#F44336',
+    fontSize: '0.8125rem',
+    width: '100%',
+  }
 });
 
