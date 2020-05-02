@@ -28,7 +28,7 @@ interface FormValues {
 const LoginPage: React.FC<{}> = () => {
   const classes = useStyles();
 
-  //  to wyniesc do Redux
+  //  it can be move to the redux store
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
 
@@ -41,7 +41,6 @@ const LoginPage: React.FC<{}> = () => {
     const results = await loginUser();
 
     //this is made for the task
-
     if (results) {
       setUser(results[0]?.email)
 
@@ -110,6 +109,7 @@ const LoginPage: React.FC<{}> = () => {
                 name="email"
                 component={FormikTextField}
                 label={EMAIL_TEXT}
+                autoFocus={true}
               />
 
               <Field

@@ -2,36 +2,40 @@ import React from 'react';
 
 import TextField from '@material-ui/core/TextField';
 
+import { IFormikTextFieldProps } from './FormikTextField.types'
+
 import { useStyles } from "./FormikTextField.style";
 
-//TODO tutaj doprecyzowac object props
-const FormikTextField = (props: any) => {
+const FormikTextField: React.FC<IFormikTextFieldProps> = (props) => {
   const classes = useStyles();
 
   const {
     disableErrorText,
     label,
     field,
-    form: {touched, errors},
+    form,
     InputProps,
     disabled,
     InputLabelProps,
-    errorProps,
     variant,
+    autoFocus,
+    margin,
     ...other
   } = props;
 
+
   const {classes: classesInput, ...otherInputProps} = InputProps;
   const {classes: classesInputLabel, ...otherInputLabelProps} = InputLabelProps;
-  const {classes: classesError, ...otherErrorProps} = errorProps;
 
   return (
     <div className={classes.wrapper}>
       <TextField
         label={label}
         disabled={disabled}
-        error={errors[field.name] && touched[field.name]}
+        error={form.errors[field.name] && form.touched[field.name]}
         variant={variant}
+        autoFocus={autoFocus}
+        margin={margin}
         InputProps={{
           notched: variant === 'outlined' ? false : undefined, // disable notched for non-outlined variants
           classes: {
@@ -54,43 +58,21 @@ const FormikTextField = (props: any) => {
         {...other}
       />
 
-      <div className={classes.errorText}>{(errors[field.name] && touched[field.name]) ? errors[field.name] : ""}</div>
+      <div
+        className={classes.errorText}>{(form.errors[field.name] && form.touched[field.name]) ? form.errors[field.name] : ""}</div>
     </div>
   );
 };
 
-//TODO tym się zająć i stworzyc odpowiedni interface
-
-// FormikTextField.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   disabled: PropTypes.bool,
-//   disableErrorText: PropTypes.bool,
-//   field: PropTypes.shape({
-//     name: PropTypes.string,
-//     onChange: PropTypes.func,
-//     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-//   }),
-//   form: PropTypes.shape({
-//     errors: PropTypes.object,
-//   }),
-//   fullWidth: PropTypes.bool,
-//   InputLabelProps: PropTypes.object,
-//   InputProps: PropTypes.object,
-//   errorProps: PropTypes.object,
-//   label: PropTypes.string,
-//   margin: PropTypes.oneOf(['none', 'dense', 'normal']),
-//   variant: PropTypes.oneOf(['outlined', 'standard', 'filled']),
-// };
-
 FormikTextField.defaultProps = {
   disabled: false,
+  autoFocus: false,
   disableErrorText: false,
   fullWidth: true,
   InputProps: {},
   InputLabelProps: {},
-  margin: 'normal',
-  errorProps: {},
-  variant: 'outlined',
+  variant: "outlined",
+  margin: "dense",
 };
 
 FormikTextField.displayName = 'FormikTextField';
